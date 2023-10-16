@@ -57,14 +57,13 @@ You can clone the repository, make modifications to any of the service implement
 ### Prerequisites
 
 - Docker
-- Docker Compose
 
 ### Steps
 
 1. Clone the repository:
    ```bash
-   git clone [URL-of-the-repo]
-   cd path-to-repo
+   git clone https://github.com/InteropIO/manager-template
+   cd manager-template
    ```
 
 2. Use Docker Compose to build and start the services:
