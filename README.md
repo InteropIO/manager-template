@@ -1,19 +1,19 @@
-*Table of Contents*
+**Table of Contents**
 
 - [🔍 Overview](#-overview)
 - [📂 Repository Structure](#-repository-structure)
 - [🚀 Getting Started](#-getting-started)
-  - [💻 Local Development \& Testing](#-local-development--testing)
+  - [💻 Local Development](#-local-development)
     - [Prerequisites](#prerequisites)
-    - [Steps:](#steps)
-  - [🌐 Kubernetes Deployment (Minikube for Local Testing)](#-kubernetes-deployment-minikube-for-local-testing)
+    - [Steps](#steps)
+  - [🌐 Local Kubernetes with minikube](#-local-kubernetes-with-minikube)
     - [Prerequisites](#prerequisites-1)
     - [Deployment Steps](#deployment-steps)
     - [Reloading cluster](#reloading-cluster)
-  - [🌐 Deployment to Production (e.g., Azure, AWS)](#-deployment-to-production-eg-azure-aws)
+  - [🌐 Deployment to Production Kubernetes](#-deployment-to-production-kubernetes)
 - [🔧 Modifying the Template](#-modifying-the-template)
   - [Databases](#databases)
-  - [Switching to PostgreSQL](#switching-to-postgresql)
+    - [Switching to PostgreSQL](#switching-to-postgresql)
   - [Authentication](#authentication)
 
 # 🔍 Overview
@@ -50,7 +50,7 @@ repo-root/
 
 # 🚀 Getting Started
 
-## 💻 Local Development & Testing
+## 💻 Local Development
 
 You can clone the repository, make modifications to any of the service implementations, and then use Docker Compose to test your changes locally.
 
@@ -59,7 +59,7 @@ You can clone the repository, make modifications to any of the service implement
 - Docker
 - Docker Compose
 
-### Steps:
+### Steps
 
 1. Clone the repository:
    ```bash
@@ -76,7 +76,7 @@ You can also use the `npm start` command to run the above Docker Compose command
 
 After running the command, the services will be started at `http://localhost:8080/server` and `http://localhost:8080/admin`.
 
-## 🌐 Kubernetes Deployment (Minikube for Local Testing)
+## 🌐 Local Kubernetes with minikube
 
 This repository provides Kubernetes configurations tailored for local testing using Minikube. If you wish to deploy the services using Minikube, follow the steps below.
 
@@ -110,7 +110,7 @@ This should make the services available at `http://localhost:8080/server` and `h
    npm run reload:mini
    ```
 
-## 🌐 Deployment to Production (e.g., Azure, AWS)
+## 🌐 Deployment to Production Kubernetes
 
 If you plan to deploy the services to a production Kubernetes cluster on a cloud provider like Azure or AWS, you'll need to make some changes to the provided configurations:
 
@@ -125,7 +125,7 @@ After making these changes, you can then deploy to your chosen Kubernetes servic
 
 By default, this package is integrated with a **MongoDB** database. However, io.Manager supports a variety of databases, granting flexibility based on your requirements and deployment environment.
 
-## Switching to PostgreSQL
+### Switching to PostgreSQL
 
 *PLACEHOLDER*: Instructions on how to switch to PostgreSQL will be provided here.
 
