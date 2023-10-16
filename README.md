@@ -9,7 +9,7 @@
   - [🌐 Local Kubernetes with minikube](#-local-kubernetes-with-minikube)
     - [Prerequisites](#prerequisites-1)
     - [Deployment Steps](#deployment-steps)
-    - [Reloading cluster](#reloading-cluster)
+    - [Reloading Cluster](#reloading-cluster)
   - [🌐 Deployment to Production Kubernetes](#-deployment-to-production-kubernetes)
 - [🔧 Modifying the Template](#-modifying-the-template)
   - [Databases](#databases)
@@ -37,12 +37,12 @@ The kubernetes-minikube configurations are under the `kubernetes-minikube` folde
 ```
 repo-root/
 │
+├── kubernetes-minikube/
+│
 ├── services/
 │   ├── server/
 │   ├── admin/
 │   └── proxy/
-│
-├── kubernetes-minikube/
 │
 ├── docker-compose.yml
 └── README.md
@@ -103,7 +103,7 @@ Use [this article](https://minikube.sigs.k8s.io/docs/start/) to setup minikube.
 This should make the services available at `http://localhost:8080/server` and `http://localhost:8080/admin`.
 
 
-### Reloading cluster
+### Reloading Cluster
 
 1. Use the following command to delete the cluster configurations, build new images, load the new images into minikube and apply the kubernetes configuration again
     ```bash
