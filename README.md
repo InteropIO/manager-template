@@ -2,6 +2,9 @@
 
 - [🔍 Overview](#-overview)
 - [📂 Repository Structure](#-repository-structure)
+  - [Before you start](#before-you-start)
+    - [Access to interop.io JFrog](#access-to-interopio-jfrog)
+    - [Change the default username](#change-the-default-username)
 - [🚀 Getting Started](#-getting-started)
   - [💻 Local Development](#-local-development)
     - [Prerequisites](#prerequisites)
@@ -47,6 +50,28 @@ repo-root/
 ├── docker-compose.yml
 └── README.md
 ```
+
+## Before you start
+
+### Access to interop.io JFrog
+The NPM packages exposing io.Manager and the Admin UI are hosted in a private NPM repository. To obtain access, [contact us](https://interop.io/contact/).
+
+Once you have access to JFROG you need to generate an .npmrc file that will authenticate you to the repository. To do so:
+
+1. Login to JFROG.
+2. Expand the menu in top right and click "Setup"
+3. Select "NPM".
+4. From the dropdown menu select _default-npm-virtual_.
+5. Copy the snippet.
+6. Create an .npmrc file with the copied contents and add it to the services/server and services/admin folders.
+
+### Change the default username
+
+By default the server is configured with none authentication, which means it trust the username provided by the client and does no verifications. When connecting to the server the desktop platform will send the username of the current user. With that configuration any client can fetch data from the server, however to access the administrative UI he will need to be granted an extra role. The default set of users that have that role is hardcoded in the server. 
+
+To change the list you need to modify the file `services/server/src/config.ts` and change the value of the `auth_exclusive_users` var.
+
+If you want to switch to another authentication check the [Authentication](#authentication) section in our docs.
 
 # 🚀 Getting Started
 

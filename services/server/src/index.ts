@@ -1,7 +1,7 @@
 import { start, Config } from "@glue42/server";
 
 const startServer = async () => {
-    const auth_exclusive_users = [require("os").userInfo().username];
+    const auth_exclusive_users = ["<CHANGE_ME>"];
 
     const config: Config = {
         name: process.env.SERVER_NAME || "test-server",
