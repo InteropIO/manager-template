@@ -1,8 +1,3 @@
-**Table of Contents**
-
-- [🔍 Overview](#-overview)
-- [🔧 Choosing between Basic and Advanced Options](#-choosing-between-basic-and-advanced-options)
-
 # 🔍 Overview
   
 [io.Manager](https://interop.io/products/io-manager/) is a server-side application that provides a simple, yet scalable, storage mechanism and monitoring service for [io.Connect platforms](https://interop.io/products/io-connect/). For more information, please visit the [official io.Manager documentation](https://docs.interop.io/manager/overview/index.html).
