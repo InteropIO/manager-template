@@ -2,6 +2,34 @@
 
 This directory contains the necessary Kubernetes YAML files to deploy the `io.Manager` application in a basic mode. In this mode you will use the Docker images already published by [interop.io](http://interop.)
 
+## 🌐 Local Kubernetes with minikube
+
+If you want to experiment with the Kubernetes configurations locally, you can use minikube to deploy the application to a local cluster.
+
+### Prerequisites
+
+- Docker
+- Minikube
+- `kubectl` configured to communicate with your Minikube cluster
+
+Use [this article](https://minikube.sigs.k8s.io/docs/start/) to setup minikube.
+
+### Deployment Steps
+
+1. Start minikube and enable ingress
+   ```bash
+   minikube start
+   minikube addons enable ingress
+   ```
+
+2. Apply kubernetes configurations
+   ```bash
+   cd '.\1. basic'
+   kubectl apply -f ./kubernetes
+   ```
+   
+This should make the services available at `http://localhost/server/` and `http://localhost/admin-ui/`.
+
 ## Configurations
 
 In the kubernetes folder you will find the following files:
@@ -52,31 +80,5 @@ In the kubernetes folder you will find the following files:
 | REACT_APP_AUTH0_AUDIENCE    | [Only if REACT_APP_AUTH=auth0] Auth0 Audience     | mongodb://localhost:27017/server |                                  |
 | REACT_APP_AUTH0_REDIRECT_URL| [Only if REACT_APP_AUTH=auth0] Auth0 Redirect URL | mongodb://localhost:27017/server |                                  |
 
-## 🌐 Local Kubernetes with minikube
 
-If you want to experiment with the Kubernetes configurations locally, you can use minikube to deploy the application to a local cluster.
-
-### Prerequisites
-
-- Docker
-- Minikube
-- `kubectl` configured to communicate with your Minikube cluster
-
-Use [this article](https://minikube.sigs.k8s.io/docs/start/) to setup minikube.
-
-### Deployment Steps
-
-1. Start minikube and enable ingress
-   ```bash
-   minikube start
-   minikube addons enable ingress
-   ```
-
-2. Apply kubernetes configurations
-   ```bash
-   cd '.\1. basic'
-   kubectl apply -f ./kubernetes
-   ```
-   
-This should make the services available at `http://localhost/server/` and `http://localhost/admin-ui/`.
 
