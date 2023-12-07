@@ -1,13 +1,14 @@
 {
   "name": "my-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@glue42/server-admin-ui": "^0.12.0",
+    "@glue42/server-admin-ui": "^1.0.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^16.11.25",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
+    "@craco/craco": "^7.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router": "^6.2.1",
@@ -16,10 +17,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [

@@ -4,6 +4,7 @@ WORKDIR /home/node/app
 
 COPY ./services/admin/package.json ./package.json
 COPY ./services/admin/package-lock.json ./package-lock.json
+COPY ./services/admin/craco.config.js ./craco.config.js
 COPY ./services/admin/.npmrc ./.npmrc
 
 RUN npm install
