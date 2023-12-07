@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: admin-ui-container
-        image: ghcr.io/glue42/server-admin-ui:0.12.2
+        image: ghcr.io/glue42/server-admin-ui:1.0.0
         imagePullPolicy: Always
         envFrom:
           - configMapRef:
