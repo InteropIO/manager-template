@@ -17,8 +17,9 @@ services:
   mongodb:
     container_name: io-manager-mongo
     image: 'mongo'
-    # volumes:
-    #   - mongodb:/data/db
+    volumes:
+       - mongodb_data:/data/db
+       - mongodb_config:/data/configdb
     environment:
       MONGO_INITDB_ROOT_USERNAME: interop42
       MONGO_INITDB_ROOT_PASSWORD: verysecret
@@ -44,6 +45,7 @@ services:
     image: io-manager-admin
     build:
       context: .      
-      dockerfile: ./services/admin/Dockerfile.local    
-# volumes:
-#   mongodb:
+      dockerfile: ./services/admin/Dockerfile.local
+volumes:
+  mongodb_data:
+  mongodb_config:
