@@ -18,4 +18,6 @@ FROM --platform=linux/amd64 nginx
 
 COPY --from=builder /home/node/app/build /usr/share/nginx/html
 
+COPY ./services/admin/default.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
