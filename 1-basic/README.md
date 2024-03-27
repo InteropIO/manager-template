@@ -27,9 +27,15 @@ Use [this article](https://minikube.sigs.k8s.io/docs/start/) to setup minikube.
    cd '.\1. basic'
    kubectl apply -f ./kubernetes
    ```
+
+3. Run the following to tunnel the services to your local machine:
+   ```bash
+   minikube tunnel
+   ```
    
 This should make the services available at `http://localhost/server/` and `http://localhost/admin-ui/`.
 
+You should be able to login in `Admin UI` with the default credentials `admin` and `admin`.
 ## Configurations
 
 In the kubernetes folder you will find the following files:
@@ -52,7 +58,7 @@ In the kubernetes folder you will find the following files:
 | API_PORT                    | Port of the Server API                                                                                                                          | 4345                             |                                  |             
 | API_BASE                    | Base of the API - use this to prefix endpoints of the API                                                                                       | ""                               |                                  |
 | API_NAME                    | Name of the Server instance - used for logging purposes                                                                                         | local                            |                                  |
-| API_STORE_TYPE              | Store type - currently the only option is mongo                                                                                                 | mongo                            | mongo, postgresql, mssql         |
+| API_STORE_TYPE              | Store type                                                                                                  | mongo                            | mongo, postgresql, mssql         |
 | API_STORE_MONGO             | Connection string to the selected store type                                                                                                    | mongodb://localhost:27017/server |                                  |
 | API_AUTH_METHOD             | Auth method                                                                                                                                     | none                             | none, basic, auth0               |
 | API_AUTH_EXCLUSIVE_USERS    | List of users that can access the server without being part of the GLUE42_SERVER_ADMIN group                                                    | []                               |                                  |
@@ -79,6 +85,3 @@ In the kubernetes folder you will find the following files:
 | REACT_APP_AUTH0_CLIENT_ID   | [Only if REACT_APP_AUTH=auth0] Auth0 Client ID    | mongodb://localhost:27017/server |                                  |
 | REACT_APP_AUTH0_AUDIENCE    | [Only if REACT_APP_AUTH=auth0] Auth0 Audience     | mongodb://localhost:27017/server |                                  |
 | REACT_APP_AUTH0_REDIRECT_URL| [Only if REACT_APP_AUTH=auth0] Auth0 Redirect URL | mongodb://localhost:27017/server |                                  |
-
-
-

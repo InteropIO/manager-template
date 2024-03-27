@@ -1,28 +1,22 @@
-import AdminUI from "@glue42/server-admin-ui";
-import { NoneAuthProvider } from "@glue42/server-admin-ui";
-import { useState } from "react";
-import { AutoLogin } from "./autoLogin";
+import AdminUI from "@interopio/manager-admin-ui";
+
+const serverBase = "/server";
+const base = process.env.REACT_APP_BASE;
+const auth = "none";
 
 const App = () => {
-    const [options, setOptions] = useState<any | undefined>(undefined);
-    const [_, setChange] = useState(new Date());
-    const [provider, __] = useState(new NoneAuthProvider(setChange, () => setOptions(undefined)));
+    console.log(`hello - ${serverBase}, ${base}`);
 
-    if (!options) {
-        return (
-            <AutoLogin url="/server" success={setOptions} />
-        );
-    }
-    provider.setOptions(options);
-
-    return (
-        <AdminUI
-            baseName={process.env.PUBLIC_URL}
-            apiURL="/server"
-            theme="dark"
-            auth={provider}
-        />
-    )
+  return (
+    <AdminUI
+      agGridLicKey="CompanyName=TICK42 AD,LicensedGroup=Multi,LicenseType=MultipleApplications,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=0,AssetReference=AG-013196,ExpiryDate=26_February_2022_[v2]_MTY0NTgzMzYwMDAwMA==a2171a628995068cf8578f7b431af74e"
+      apiURL={serverBase}
+      baseName={base}
+      theme="dark"
+      auth={auth}
+      users={{ canAdd: true, havePasswords: true }}
+    />
+  );
 };
 
 export default App;

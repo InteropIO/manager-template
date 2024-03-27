@@ -1,4 +1,4 @@
-import { start, Config } from "@glue42/server";
+import { start, Config } from "@interopio/manager";
 
 const startServer = async () => {
     const auth_exclusive_users = ["<CHANGE_ME>"];

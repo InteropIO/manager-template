@@ -16,7 +16,6 @@
   - [🌐 Deployment to Production Kubernetes](#-deployment-to-production-kubernetes)
 - [🔧 Modifying the Template](#-modifying-the-template)
   - [Databases](#databases)
-    - [Switching to PostgreSQL](#switching-to-postgresql)
   - [Authentication](#authentication)
 
 # 🔍 Overview
@@ -69,7 +68,7 @@ By default the server is configured with none authentication, which means it tru
 
 To change the list you need to modify the file `services/server/src/config.ts` and change the value of the `auth_exclusive_users` var.
 
-If you want to switch to another authentication check the [Authentication](#authentication) section in our docs.
+If you want to switch to another authentication check the [Authentication]([#authentication](https://docs.interop.io/manager/authentication/overview/index.html)) section in our docs.
 
 # 🚀 Getting Started
 
@@ -145,12 +144,8 @@ After making these changes, you can then deploy to your chosen Kubernetes servic
 
 ## Databases
 
-By default, this package is integrated with a **MongoDB** database. However, io.Manager supports a variety of databases, granting flexibility based on your requirements and deployment environment.
-
-### Switching to PostgreSQL
-
-*PLACEHOLDER*: Instructions on how to switch to PostgreSQL will be provided here.
+By default, this package is integrated with a **MongoDB** database. However, io.Manager supports a variety of databases, granting flexibility based on your requirements and deployment environment. Check the [Databases](https://docs.interop.io/manager/databases/overview/index.html) section in our documentation for more information.
 
 ## Authentication
 
-*PLACEHOLDER*: Instructions on how to implement different authentication flows will be provided here.
+By default, this packages comes with **none** authentication. However, io.Manager supports a variety of authentication methods, including **Basic**, **JWT**, and **OAuth2**. Check the [Authentication](https://docs.interop.io/manager/authentication/overview/index.html) section in our documentation for more information.
