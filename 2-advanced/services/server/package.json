@@ -14,7 +14,7 @@
   "author": "interop.io",
   "license": "ISC",
   "dependencies": {
-    "@interopio/manager": "^1.2.0"
+    "@interopio/manager": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20.8.6",

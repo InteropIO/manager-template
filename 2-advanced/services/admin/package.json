@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^7.1.0",
-    "@interopio/manager-admin-ui": "^1.2.0",
+    "@interopio/manager-admin-ui": "^2.0.0",
     "@interopio/theme-demo-apps": "^4.1.2",
     "@types/jest": "^27.4.0",
     "@types/node": "^16.11.25",
