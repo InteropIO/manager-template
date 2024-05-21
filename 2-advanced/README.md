@@ -66,7 +66,7 @@ Once you have access to JFROG you need to generate an .npmrc file that will auth
 
 By default the server is configured with none authentication, which means it trust the username provided by the client and does no verifications. When connecting to the server the desktop platform will send the username of the current user. With that configuration any client can fetch data from the server, however to access the administrative UI he will need to be granted an extra role. The default set of users that have that role is hardcoded in the server. 
 
-To change the list you need to modify the file `services/server/src/config.ts` and change the value of the `auth_exclusive_users` var.
+To change the list you need to modify the file `services/server/src/index.ts` and change the value of the `auth_exclusive_users` var.
 
 If you want to switch to another authentication check the [Authentication]([#authentication](https://docs.interop.io/manager/authentication/overview/index.html)) section in our docs.
 
