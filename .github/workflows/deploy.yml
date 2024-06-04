@@ -1,0 +1,61 @@
+name: Deploy
+on: 
+  workflow_dispatch:
+    inputs:
+      component:
+        description: "What component to build"
+        required: true
+        type: choice
+        options:
+        - acme-oms
+        - wealth-apps
+        - start-of-day
+      url:
+        description: "What URL to deploy to"
+        required: true
+        type: choice
+        options:
+        - acme-trial
+        - wealth-trial
+        - start-of-day
+      image_tag:
+        description: "Image tag to be deployed"
+        required: true
+        default: "latest"
+      namespace:
+        description: "Namespace in EKS to be deployed"
+        required: true
+        default: "core-demos"
+      deploy:
+        description: "Deploy"
+        default: false
+        type: boolean
+
+jobs:
+  deploy:
+    runs-on: 
+      - deploy
+    environment: dev
+    name: Deploy
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          repository: InteropIO/basehelmchart
+          path: 'helm'
+          sparse-checkout: '*'
+          sparse-checkout-cone-mode: false
+      - name: Deploy
+        run: |
+          helmfile -f helmfile.yaml apply
+        env:
+          PROJECT_NAME: ${{ github.event.repository.name }}
+          NAMESPACE: ${{ github.event.inputs.namespace }}
+          ALB_INSTANCES: ${{ vars.ALB_INSTANCES }}
+          CI_REGISTRY: ${{ vars.CI_REGISTRY }}
+          CERT_ARN: ${{ vars.CERT_ARN }}
+          IMAGE_TAG: ${{ github.event.inputs.image_tag }}
+          INSTALLED: ${{ github.event.inputs.deploy }}
+          COMPONENT: ${{ github.event.inputs.component }}
+          URL: ${{ github.event.inputs.url }}

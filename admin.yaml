@@ -1,0 +1,89 @@
+environments:
+  default:
+  test:
+  development:
+  production:
+---
+releases:
+  - name: server-demos-glue42-admin
+    namespace: {{ requiredEnv "NAMESPACE" }}
+    chart: helm/
+    installed: {{ requiredEnv "INSTALLED" }}
+    historyMax: 3
+    values:
+      - kind: Deployment
+      - fullnameOverride: {{ requiredEnv "URL" }}-admin
+      - serviceAccount:
+          create: false
+      - deploymentAnnotations:
+          configmap.reloader.stakater.com/reload: "server-demos-glue42-ui-config, server-demos-glue42-server-config"
+          secret.reloader.stakater.com/reload: "server-demos-glue42-server-secrets"
+      - replicaCount: 1
+      - image:
+          repository: ghcr.io/interopio/manager-admin-ui
+          pullPolicy: IfNotPresent
+          tag: {{ env "IMAGE_TAG" | default "latest"}}
+          envFrom:
+            - configMapRef:
+                name: server-demos-glue42-server-config
+          env:
+            - name: API_AUTH_METHOD_BASIC_USERS
+              valueFrom:
+                secretKeyRef:
+                  name: server-demos-glue42-server-secrets
+                  key: API_AUTH_METHOD_BASIC_USERS
+          resources:
+            limits:
+              memory: "128Mi"
+            requests:
+              cpu: "20m"
+              memory: "96Mi"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+      - service:
+          enabled: true
+          type: NodePort
+          ports:
+            - name: http
+              targetPort: 80
+              protocol: TCP
+              port: 80
+      - ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: alb
+            alb.ingress.kubernetes.io/scheme: internal
+            alb.ingress.kubernetes.io/certificate-arn: {{ requiredEnv "CERT_ARN" }}
+            alb.ingress.kubernetes.io/group.name: int-{{ mod (randNumeric 1) ( requiredEnv "ALB_INSTANCES" ) }}
+            alb.ingress.kubernetes.io/target-node-labels: kubernetes.io/os=linux
+            alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+            alb.ingress.kubernetes.io/ssl-redirect: "443"
+            alb.ingress.kubernetes.io/healthcheck-path: /
+            alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+            alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-1-2017-01
+            alb.ingress.kubernetes.io/load-balancer-attributes: routing.http.drop_invalid_header_fields.enabled=true
+            alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=3600,slow_start.duration_seconds=30,deregistration_delay.timeout_seconds=60
+          hosts:
+            - host: {{ requiredEnv "URL" }}.glue42.com
+              paths:
+                - path: /server
+                  pathType: Prefix
+                  backend: 
+                    service:
+                      name: {{ requiredEnv "URL" }}-server
+                      port:
+                        number: 4356
+            - host:  {{ requiredEnv "URL" }}.glue42.com
+              paths:
+                - path: /*
+                  pathType: ImplementationSpecific
+                  backend: 
+                    service:
+                      name: {{ requiredEnv "URL" }}-admin
+                      port:
+                        number: 80
+      - nodeSelector:
+          kubernetes.io/arch: "amd64"
+          kubernetes.io/os: "linux"

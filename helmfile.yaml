@@ -1,0 +1,71 @@
+environments:
+  default:
+  test:
+  development:
+  production:
+---
+releases:
+  - name: {{ requiredEnv "URL" }}
+    namespace: {{ requiredEnv "NAMESPACE" }}
+    chart: helm/
+    installed: {{ requiredEnv "INSTALLED" }}
+    historyMax: 3
+    values:
+      - kind: Deployment
+      - fullnameOverride: {{ requiredEnv "URL" }}
+      - serviceAccount:
+          create: false
+      - deploymentAnnotations:
+          configmap.reloader.stakater.com/reload: ""
+          secret.reloader.stakater.com/reload: ""
+      - replicaCount: 1
+      - image:
+          repository: {{ requiredEnv "CI_REGISTRY" }}/{{ requiredEnv "PROJECT_NAME" }}/{{ requiredEnv "COMPONENT" }}
+          pullPolicy: IfNotPresent
+          tag: {{ env "IMAGE_TAG" | default "latest"}}
+          resources:
+            limits:
+              memory: "16Mi"
+            requests:
+              cpu: "20m"
+              memory: "8Mi"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+      - service:
+          enabled: true
+          type: NodePort
+          ports:
+            - name: http
+              targetPort: 80
+              protocol: TCP
+              port: 80
+      - ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: alb
+            alb.ingress.kubernetes.io/scheme: internet-facing
+            alb.ingress.kubernetes.io/certificate-arn: {{ requiredEnv "CERT_ARN" }}
+            alb.ingress.kubernetes.io/group.name: ext-{{ mod (randNumeric 1) ( requiredEnv "ALB_INSTANCES" ) }}
+            alb.ingress.kubernetes.io/target-node-labels: kubernetes.io/os=linux
+            alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+            alb.ingress.kubernetes.io/ssl-redirect: "443"
+            alb.ingress.kubernetes.io/healthcheck-path: /
+            alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+            alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-1-2017-01
+            alb.ingress.kubernetes.io/load-balancer-attributes: routing.http.drop_invalid_header_fields.enabled=true
+            alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=3600,slow_start.duration_seconds=30,deregistration_delay.timeout_seconds=60
+          hosts:
+            - host:  {{ requiredEnv "URL" }}.interop.io
+              paths:
+                - path: /*
+                  pathType: ImplementationSpecific
+                  backend: 
+                    service:
+                      name: {{ requiredEnv "URL" }}
+                      port:
+                        number: 80
+      - nodeSelector:
+          kubernetes.io/arch: "amd64"
+          kubernetes.io/os: "linux"

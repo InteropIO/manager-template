@@ -1,0 +1,72 @@
+environments:
+  default:
+  test:
+  development:
+  production:
+---
+releases:
+  - name: server-demos-glue42
+    namespace: {{ requiredEnv "NAMESPACE" }}
+    chart: helm/
+    installed: {{ requiredEnv "INSTALLED" }}
+    historyMax: 3
+    values:
+      - kind: Deployment
+      - fullnameOverride: {{ requiredEnv "URL" }}-server
+      - serviceAccount:
+          create: false
+      - deploymentAnnotations:
+          configmap.reloader.stakater.com/reload: "server-demos-glue42-server-config"
+          secret.reloader.stakater.com/reload: "server-demos-glue42-server-secrets"
+      - replicaCount: 1
+      - image:
+          repository: ghcr.io/interopio/manager
+          pullPolicy: IfNotPresent
+          tag: {{ env "IMAGE_TAG" | default "latest"}}
+          envFrom:
+            - configMapRef:
+                name: server-demos-glue42-server-config
+            - secretRef:
+                name: server-demos-glue42-server-secrets
+          resources:
+            limits:
+              memory: "256Mi"
+            requests:
+              cpu: "20m"
+              memory: "64Mi"
+          ports:
+            - name: http
+              containerPort: 4356
+              protocol: TCP
+      - service:
+          enabled: true
+          type: NodePort
+          ports:
+            - name: http
+              targetPort: 4356
+              protocol: TCP
+              port: 4356
+      - nodeSelector:
+          kubernetes.io/arch: "amd64"
+          kubernetes.io/os: "linux"
+      - secrets:
+          - name: server-demos-glue42-server-secrets
+            annotations:
+              reloader.stakater.com/match: "true"
+            data: 
+              SERVER_TOKEN_SECRET: {{ requiredEnv "SERVER_TOKEN_SECRET" | b64enc }}
+              API_STORE_MONGO: {{ (printf "mongodb://%s:%s@%s:27017/%s?authSource=admin" ( requiredEnv "DB_USER") ( requiredEnv "DB_PASS") ( requiredEnv "DB_HOST") ( requiredEnv "DB_NAME") )| b64enc }}
+              API_AUTH_METHOD_BASIC_USERS: {{ requiredEnv "API_AUTH_METHOD_BASIC_USERS" | b64enc }}
+      - configmaps:
+          - name: server-demos-glue42-server-config
+            annotations:
+              reloader.stakater.com/match: "true"
+            data:
+              SERVER_NAME: {{ requiredEnv "SERVER_NAME" }}
+              SERVER_PORT: "{{ requiredEnv "SERVER_PORT" }}"
+              API_STORE_TYPE: {{ requiredEnv "API_STORE_TYPE" }}
+              API_AUTH_METHOD: {{ requiredEnv "API_AUTH_METHOD" }}
+              API_BASE: {{ requiredEnv "API_BASE" }}
+              REACT_APP_SERVER_BASE: "{{ requiredEnv "REACT_APP_SERVER_BASE" }}"
+              PUBLIC_URL: "{{ requiredEnv "PUBLIC_URL" }}"
+              REACT_APP_BASE: "{{ requiredEnv "REACT_APP_BASE" }}"
