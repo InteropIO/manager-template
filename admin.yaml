@@ -1,8 +1,7 @@
 environments:
-  default:
-  test:
-  development:
-  production:
+  stg:
+  dev:
+  prod:
 ---
 releases:
   - name: server-demos-glue42-admin
@@ -16,7 +15,7 @@ releases:
       - serviceAccount:
           create: false
       - deploymentAnnotations:
-          configmap.reloader.stakater.com/reload: "server-demos-glue42-ui-config, server-demos-glue42-server-config"
+          configmap.reloader.stakater.com/reload: "server-demos-glue42-server-config"
           secret.reloader.stakater.com/reload: "server-demos-glue42-server-secrets"
       - replicaCount: 1
       - image:

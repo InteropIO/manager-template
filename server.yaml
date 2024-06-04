@@ -1,8 +1,7 @@
 environments:
-  default:
-  test:
-  development:
-  production:
+  stg:
+  dev:
+  prod:
 ---
 releases:
   - name: server-demos-glue42
