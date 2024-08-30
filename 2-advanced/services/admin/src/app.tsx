@@ -3,6 +3,7 @@ import AdminUI from "@interopio/manager-admin-ui";
 const serverBase = "/server";
 const base = process.env.REACT_APP_BASE;
 const auth = "none";
+const authUser = "admin"
 
 const App = () => {
     console.log(`hello - ${serverBase}, ${base}`);
@@ -13,6 +14,7 @@ const App = () => {
       apiURL={serverBase}
       baseName={base}
       theme="dark"
+      authUser={authUser}
       auth={auth}
       users={{ canAdd: true, havePasswords: true }}
     />
